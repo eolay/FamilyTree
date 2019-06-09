@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Семейное дерево</title>
+      <!-- <script src="https://d3js.org/d3.v3.min.js"></script>-->
+      <script src="https://d3js.org/d3.v4.js"></script>
+      <!-- <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script> -->
+      <style type = "text/css">
+        body
+        {
+          padding-top: 50px;
+          padding-left: 100px;
+        }
+        .person
+        {
+            border-radius: 100px; /* Радиус скругления */
+            box-shadow: 0 0 0 1px darkblue, 0 0 10px #333; /* Параметры теней */
+            width: 100px;
+            height: 100px;
+            background: transparent;
+        }   
+
+		img {
+			border-radius: 50%;
+		}		
+
+      </style>  
+  </head>
+  <body>
+    <h1>Family tree</h1>
+
+    <div id="my_dataviz"></div>
+ 
+
+	<svg width="400" height="400">
+
+	  <defs>
+		  <pattern id="imgpattern" x="0" y="0" width="1" height="1"
+				   viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice">
+			<image width="100" height="100" xlink:href="personf.jpg"/>
+		  </pattern>
+	  </defs>
+
+	</svg>
+ 
+ 
+    <script>
+
+      // set the dimensions and margins of the graph
+      var width = 600
+      var height = 600
+      
+      // append the svg object to the body of the page
+      var svg = d3.select("#my_dataviz")
+        .append("svg")
+          .attr("width", width)
+          .attr("height", height)
+        .append("g")
+          .attr("transform", "translate(0,40)");  // bit of margin on the left = 40
+      
+      // read json data
+      d3.json("data_dendrogram.json", function(data) {
+      
+        // Create the cluster layout:
+        var cluster = d3.cluster()
+          .size([height, width - 100]);  // 100 is the margin I will have on the right side
+      
+        // Give the data to this cluster layout:
+        var root = d3.hierarchy(data, function(d) {
+            return d.children;
+        });
+        cluster(root);
+      
+      
+        // Add the links between nodes:
+        svg.selectAll('path')
+          .data( root.descendants().slice(1) )
+          .enter()
+          .append('path')
+          .attr("d", function(d) {
+              return "M" + d.x + "," + d.y
+                      + "C" + (d.parent.x) + "," + d.y 
+                      + " " + (d.parent.x) + "," + d.parent.y // 50 and 150 are coordinates of inflexion, play with it to change links shape
+                      + " " + d.parent.x + "," + d.parent.y;
+                    })
+          .style("fill", 'none')
+          .attr("stroke", '#ccc')
+      
+      
+        // Add a circle for each node.
+        svg.selectAll("g")
+            .data(root.descendants())
+            .enter()
+            .append("g")
+            .attr("transform", function(d) {
+                return "translate(" + (d.x - 50) + "," + (d.y - 40) + ")"
+            })
+              .append("circle")
+              .attr("cx", 50)
+              .attr("cy", 50)
+			  .attr("r", 50)
+			  .attr("class", "person")
+			  .attr("fill", "url(#imgpattern)")
+			  .attr("stroke", "blue")
+              .attr("xlink:href", "personf.jpg")
+			  .attr("style", "border-radius: 100px")
+		
+      })
+      
+      </script>
+  </body>
+</html>
