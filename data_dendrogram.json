@@ -5,6 +5,16 @@
       "children": [
         {
           "name": "mister_a",
+          "children": [
+              {
+                "name": "mister_e",
+                "colname": "level3"
+              },
+              {
+                "name": "mister_f",
+                "colname": "level3"
+              }
+            ],
           "colname": "level3"
         },
         {
