@@ -5,21 +5,27 @@
       "children": [
         {
           "name": "mister_a",
+          "colname": "level3",
           "children": [
-              {
-                "name": "mister_e",
-                "colname": "level4"
-              },
-              {
-                "name": "mister_f",
-                "colname": "level4"
-              }
-            ],
-          "colname": "level3"
+            {
+              "name": "mister_e",
+              "colname": "level4"
+            }
+          ]
         },
         {
           "name": "mister_b",
-          "colname": "level3"
+          "colname": "level3",
+          "children": [
+            {
+              "name": "mister_e",
+              "colname": "level4"
+            },
+            {
+              "name": "mister_f",
+              "colname": "level4"
+            }
+          ]
         },
         {
           "name": "mister_c",
@@ -33,14 +39,6 @@
       "children": [
         {
           "name": "mister_e",
-          "colname": "level3"
-        },
-        {
-          "name": "mister_f",
-          "colname": "level3"
-        },
-        {
-          "name": "mister_g",
           "colname": "level3"
         },
         {
